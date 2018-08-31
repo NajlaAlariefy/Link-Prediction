@@ -24,6 +24,16 @@ def pref_attach(u,v):
 def common_friends(u,v):
     return len(set(Gamma(u)).intersection(Gamma(v)))
 
+def jacard_coef(u,v):
+    return common_friends(u,v)/total_friends(u,v)
+
+# TRANSITIVE FRIENDS
+def transitive_friends(u,v):
+    return len(set(G.successors(u)).intersection(G.predecessors(v)))
+
+# OPPOSITE FRIENDS
+def opposite_friends(u,v):
+    return int(G.has_edge(v,u))
 
 
 
@@ -144,6 +154,19 @@ print(time.time() - t)
 t = time.time()
 sourced['pref_attach'] = sourced[['source','target']].apply(lambda x: pref_attach(str(x['source']),str(x['target'])),axis=1)
 print(time.time() - t)
+
+t = time.time()
+sourced['jacard_coef'] = sourced[['source','target']].apply(lambda x: jacard_coef(str(x['source']),str(x['target'])),axis=1)
+print(time.time() - t)
+
+t = time.time()
+sourced['transitive_friends'] = sourced[['source','target']].apply(lambda x: transitive_friends(str(x['source']),str(x['target'])),axis=1)
+print(time.time() - t)
+
+t = time.time()
+sourced['opposite_friends'] = sourced[['source','target']].apply(lambda x: opposite_friends(str(x['source']),str(x['target'])),axis=1)
+print(time.time() - t)
+
 sourced['degree_source'] = sourced["source"].apply(lambda x: G.degree(str(x)))
 sourced['degree_source_in'] = sourced["source"].apply(lambda x: G.in_degree(str(x)))
 sourced['degree_source_out'] = sourced["source"].apply(lambda x: G.out_degree(str(x)))
@@ -166,13 +189,26 @@ print(sourced['class'].sum())
 best_train = sourced.drop(['source','target'],axis = 1)
 best_train.mean(axis = 0)
 
-best_train = best_train[['pref_attach','total_friends','common_friends','degree_source',
+best_train = best_train[['pref_attach','total_friends','common_friends','jacard_coef','transitive_friends','opposite_friends','degree_source',
          'degree_source_in','degree_source_out','degree_target','degree_target_in','degree_target_out','class']]
 best_train
-best_train.to_csv('/Users/williamrudd/documents/MSc/COMP90051/train_friday_night_40k.csv',index = None)
-
-
- 
+best_train.to_csv('/Users/williamrudd/documents/MSc/COMP90051/train_friday_night_40k_12features.csv',index = None)
 
 
 
+
+
+
+
+#### CHECKING FOR DUPLICATES and REMOVING THEM
+sourced_unique = sourced.drop_duplicates(subset = ['source','target'])
+print(sourced_unique['class'].sum())
+
+train_unique = sourced_unique.drop(['source','target'],axis = 1)
+train_unique.mean(axis = 0)
+
+train_unique = train_unique[['pref_attach','total_friends','common_friends','degree_source',
+         'degree_source_in','degree_source_out','degree_target','degree_target_in','degree_target_out','class']]
+train_unique.to_csv('/Users/williamrudd/documents/MSc/COMP90051/train_friday_night_40k_unique.csv',index = None)
+
+# removed duplicates - made little to no difference...
