@@ -8,6 +8,7 @@ import time
 train_file_path = 'C:/Users/Modarres/Desktop/train_n.txt'
 
 G = nx.read_adjlist(train_file_path, delimiter='\t', create_using=nx.DiGraph(), nodetype=int)
+undirected_G = (nx.Graph)(G)
 gamma_dict = dict()
 
 print("graph was read successfully")
@@ -44,7 +45,6 @@ def transitive_friends(u,v):
 # OPPOSITE FRIENDS
 def opposite_friends(u,v):
     return int(G.has_edge(v,u))
-
 
 
 
@@ -169,6 +169,12 @@ def closeness(u,v):
 
 def closeness_centrality(u,v):
     return nx.closeness_centrality(G, u)*nx.closeness_centrality(G, v)
+
+
+def adamic_adar(u,v):
+    preds= nx.adamic_adar_index(undirected_G, [(u, v)])
+    for u,v,p in preds:
+        return p
 
 
 
