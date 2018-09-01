@@ -1,15 +1,24 @@
 import numpy as np
 import pandas as pd
 import networkx as nx
-import random as random
-import matplotlib.pyplot as plt
+#import random as random
+#import matplotlib.pyplot as plt
 import time
 
-G =  nx.read_adjlist('data/xtrain.txt', delimiter='\t',create_using=nx.DiGraph() , nodetype=int)
+train_file_path = 'C:/Users/Modarres/Desktop/train_n.txt'
 
+G = nx.read_adjlist(train_file_path, delimiter='\t', create_using=nx.DiGraph(), nodetype=int)
+gamma_dict = dict()
+
+print("graph was read successfully")
 
 def Gamma(u):
-    return set(G.successors(u)).union(G.predecessors(u))
+    s = gamma_dict.get(u)
+    if s is None:
+        s = set(G.successors(u)).union(G.predecessors(u))
+        gamma_dict[u]=s
+    return s
+
 def Gamma_in(u):
     return G.predecessors(u)
 def Gamma_out(u):
