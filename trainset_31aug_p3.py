@@ -49,11 +49,6 @@ def opposite_friends(u,v):
 
 
 
-
-
-
-
-
 # Gives the sorted list of nodes and their out degrees
 degreelist = G.out_degree()
 degreelist = list(degreelist)
@@ -172,6 +167,8 @@ def closeness(u,v):
     except nx.NetworkXNoPath:
         return 100000
 
+def closeness_centrality(u,v):
+    return nx.closeness_centrality(G, u)*nx.closeness_centrality(G, v)
 
 
 
