@@ -52,6 +52,8 @@ def opposite_friends(u,v):
 
 
 
+
+
 # Gives the sorted list of nodes and their out degrees
 degreelist = G.out_degree()
 degreelist = list(degreelist)
@@ -161,6 +163,15 @@ def dice_coef_undirected(u, v):
     if sum_out == 0:
         return 0
     return 2*len(set(Gamma(u)).intersection(set(Gamma(v))))/(G.out_degree(u)+G.out_degree(v))
+
+# closeness measure
+def closeness(u,v):
+    try:
+        path_length = nx.shortest_path_length(G, source=u, target=v);
+        return path_length
+    except nx.NetworkXNoPath:
+        return 100000
+
 
 
 
