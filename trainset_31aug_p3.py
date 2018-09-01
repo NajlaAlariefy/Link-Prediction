@@ -48,6 +48,10 @@ def opposite_friends(u,v):
 
 
 
+
+
+
+
 # Gives the sorted list of nodes and their out degrees
 degreelist = G.out_degree()
 degreelist = list(degreelist)
@@ -142,9 +146,23 @@ sourced['target'] = targetarray
 
 ######## THIS IS WHERE YOU CAN ADD MORE FEATURES ########
 ######## THIS IS WHERE YOU CAN ADD MORE FEATURES ########
-######## THIS IS WHERE YOU CAN ADD MORE FEATURES ########
-######## THIS IS WHERE YOU CAN ADD MORE FEATURES ########
-######## THIS IS WHERE YOU CAN ADD MORE FEATURES ########
+
+
+# dice similarity - ref https://opus.lib.uts.edu.au/bitstream/10453/43302/1/final.pdf
+def dice_coef_directed(u,v):
+    sum_out = G.out_degree(u)+G.out_degree(v)
+    if sum_out == 0:
+        return 0
+    return 2*len(set(Gamma_out(u)).intersection(set(Gamma_out(v))))/(G.out_degree(u)+G.out_degree(v))
+
+
+def dice_coef_undirected(u, v):
+    sum_out = G.out_degree(u)+G.out_degree(v)
+    if sum_out == 0:
+        return 0
+    return 2*len(set(Gamma(u)).intersection(set(Gamma(v))))/(G.out_degree(u)+G.out_degree(v))
+
+
 
 
 # THESE FEATURES WERE COMPUTED VERY FAST. The longest feature on the 40k size
