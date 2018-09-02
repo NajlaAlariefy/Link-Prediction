@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import networkx as nx
+import math
 #import random as random
 #import matplotlib.pyplot as plt
 import time
@@ -45,6 +46,7 @@ def transitive_friends(u,v):
 # OPPOSITE FRIENDS
 def opposite_friends(u,v):
     return int(G.has_edge(v,u))
+
 
 
 
@@ -159,13 +161,6 @@ def dice_coef_undirected(u, v):
         return 0
     return 2*len(set(Gamma(u)).intersection(set(Gamma(v))))/(G.out_degree(u)+G.out_degree(v))
 
-# closeness measure
-def closeness(u,v):
-    try:
-        path_length = nx.shortest_path_length(G, source=u, target=v);
-        return path_length
-    except nx.NetworkXNoPath:
-        return 100000
 
 def closeness_centrality(u,v):
     return nx.closeness_centrality(G, u)*nx.closeness_centrality(G, v)
@@ -176,6 +171,13 @@ def adamic_adar(u,v):
     for u,v,p in preds:
         return p
 
+
+def friends_closeness(u,v):
+    try:
+        path_length = nx.shortest_path_length(G, source=u, target=v);
+        return math.log(total_friends(u, v))/(10*path_length)
+    except nx.NetworkXNoPath:
+        return 0
 
 
 
