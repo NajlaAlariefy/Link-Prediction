@@ -51,6 +51,7 @@ def opposite_friends(u,v):
 
 
 
+
 # Gives the sorted list of nodes and their out degrees
 degreelist = G.out_degree()
 degreelist = list(degreelist)
@@ -180,6 +181,13 @@ def friends_closeness(u,v):
         return 0
 
 
+# Salton Index ref - https://arxiv.org/pdf/0901.0553.pdf
+def salton_index(u, v):
+    return common_friends(u, v)/(math.pow((len(Gamma(u))*len(Gamma(v))), 0.5))
+
+
+def hub_promoted_index(u, v):
+    return common_friends(u, v)/(min((len(Gamma(u)), len(Gamma(v)))))
 
 # THESE FEATURES WERE COMPUTED VERY FAST. The longest feature on the 40k size
 # data set took 2 minutes on my machine.
