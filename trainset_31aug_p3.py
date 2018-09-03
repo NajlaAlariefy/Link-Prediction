@@ -189,6 +189,15 @@ def salton_index(u, v):
 def hub_promoted_index(u, v):
     return common_friends(u, v)/(min((len(Gamma(u)), len(Gamma(v)))))
 
+# Reference: http://blog.kaggle.com/2011/01/18/how-i-did-it-benjamin-hamners-take-on-finishing-second/
+def mutual_followers(u,v):
+    # retrieve predecessors of v
+    preds = G.predecessors(v)
+    sum_of_mutual_followers = 0
+    for x in preds:
+        sum_of_mutual_followers += len(set(G.successors(u)).union(G.successors(x)))/ len(set(G.successors(x)))
+    return sum_of_mutual_followers
+
 # THESE FEATURES WERE COMPUTED VERY FAST. The longest feature on the 40k size
 # data set took 2 minutes on my machine.
 
