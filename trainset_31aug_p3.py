@@ -47,6 +47,14 @@ def transitive_friends(u,v):
 def opposite_friends(u,v):
     return int(G.has_edge(v,u))
 
+def adar(u,v):
+    n = set(Gamma(u)).intersection(Gamma(v))
+    a = 0
+    if not n:
+        return a
+    for i in n:
+        a = a + 1/math.log(len(Gamma(i)))
+    return a
 
 
 
@@ -133,12 +141,33 @@ print(time.time()-t)
 targets = np.append(targets_real,targets_fake)
 
 
+
+
+
+
+
+
 # This appends everything into a data frame
 targetarray = np.array(targets)
 targetarray
 sourced = pd.DataFrame(testsources, columns = ['source'])
 sourced['target'] = targetarray
 
+
+## ADDING CLASS LABELS - need to do this before removing edges
+t = time.time()
+sourced['class'] = sourced[['source','target']].apply(lambda x: int(G.has_edge(x['source'],x['target'])),axis=1)
+print(time.time() - t)
+
+# you can see that they are about the same in ratio.
+print(sourced['class'].sum())
+
+
+# removes edges. Can add edges back in if you want to redo the whole thing without having to reload the graph.
+edges = list(zip(testsources,targets))
+n_before = nx.number_of_edges(G)
+G.remove_edges_from(edges)
+n_after = nx.number_of_edges(G)
 
 
 
@@ -243,13 +272,7 @@ sourced['degree_target_out'] = sourced["target"].apply(lambda x: G.out_degree(x)
 
 
 
-## ADDING CLASS LABELS
-t = time.time()
-sourced['class'] = sourced[['source','target']].apply(lambda x: int(G.has_edge(x['source'],x['target'])),axis=1)
-print(time.time() - t)
 
-# you can see that they are about the same in ratio.
-print(sourced['class'].sum())
 
 
 # here I convert this into a training set, put the features in the correct
