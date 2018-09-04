@@ -56,7 +56,23 @@ def adar(u,v):
         a = a + 1/math.log(len(Gamma(i)))
     return a
 
+def jacard_outneighbours(u,v):
+    out_set = Gamma_out(u)
+    a = 0
+    if not out_set:
+        return a
+    for i in out_set:
+        a = a + jacard_coef(i,v)
+    return a/len(Gamma_out(u))  
 
+def jacard_inneighbours(u,v):
+    in_set = Gamma_in(v)
+    a = 0
+    if not in_set:
+        return a
+    for i in in_set:
+        a = a + jacard_coef(u,i)
+    return a/len(Gamma_in(v))
 
 
 
