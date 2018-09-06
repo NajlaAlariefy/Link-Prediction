@@ -85,3 +85,49 @@ def friends_closeness(u):
 
 def closeness_centrality(u):
     return nx.closeness_centrality(G, u[0])*nx.closeness_centrality(G, u[1])
+
+
+
+
+# Numpy vectorised computation
+train = pd.read_csv('train_ref_050918.csv')
+vectorised = np.array([train.source,train.target])
+vectorised = vectorised.T
+
+# removing edges
+sources =train.source[train['class'] == 1]
+targets = train.target[train['class'] == 1]
+edges = list(zip(sources,targets))
+n_before = nx.number_of_edges(G)
+G.remove_edges_from(edges)
+n_after = nx.number_of_edges(G)
+
+
+t = time.time()
+jacard_inneighbours_f = np.apply_along_axis(jacard_inneighbours, 1, vectorised)
+print((time.time() - t))
+
+t = time.time()
+jacard_outneighbours_f = np.apply_along_axis(jacard_outneighbours, 1, vectorised)
+print((time.time() - t))
+
+t = time.time()
+pref_outneighbours_f = np.apply_along_axis(pref_outneighbours, 1, vectorised)
+print((time.time() - t))
+
+t = time.time()
+pref_inneighbours_f = np.apply_along_axis(pref_inneighbours, 1, vectorised)
+print((time.time() - t))
+
+
+t = time.time()
+friends_closeness_f = np.apply_along_axis(friends_closeness, 1, vectorised)
+print((time.time() - t))
+
+train['jacard_inneighbours'] = jacard_inneighbourss
+train['jacard_outneighbours'] = jacard_outneighbourss
+train['friends_closeness'] = friends_closeness_f
+train['pref_outneighbours'] = pref_outneighbours_f
+train['pref_inneighbours'] = pref_inneighbours
+
+train.to_csv('train.csv', index=None)
