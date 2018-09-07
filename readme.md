@@ -17,10 +17,11 @@ Following are the list of features used for the final submission. The code could
 
 | Feature | Description |
 |---------|-----------|
-| Common Friends        |  Common friends between u & v.         |
-| Total Friends        | Total friends of u & v.          |
+| Common Friends        |  Common friends between **u** & **v**.         |
+| Total Friends        | Total friends of **u** & **v**.          |
 | Preferential Attachment        |           |
 | Jaccard's Coefficient       |  Ratio of common friends to total friends.         |
+| Adar      |   [Reference](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.449.1743&rep=rep1&type=pdf)  |
 | Transitive Friends          |  Does **u** follow followers of **v**?         |
 | Opposite Friends        | Does **v** follow **u**?          |
 | Dice Coefficient Directed           |  [Reference](https://opus.lib.uts.edu.au/bitstream/10453/43302/1/final.pdf)         |
