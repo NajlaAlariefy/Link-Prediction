@@ -3,7 +3,11 @@
 6 Sept, 2018
 
 ## Summary
-This part of the project contains the data and feature engineering pipelines. Model building & selection were done using the Weka Workbench.
+This part of the project contains the data and feature engineering pipelines. Model building & selection were done using the Weka Workbench version 3.8.2.
+
+Ensembles of Decision Trees: Random Forest and AdaBoostM1 (with Decision Stump) were used. In both cases, the model was evaluated using 10-fold cross validation, and for competition submissions, trained on the entire training set.
+
+Preprocessing in Weka is straightforward. First, the class has to be situated in the last column of the csv file. The numeric to nominal transform is then used, and the above models can be evaluated with ease under the "Classify" tab. 
 
 The pipeline is summarised in **Data & Feature Engineering.ipynb**.
 
